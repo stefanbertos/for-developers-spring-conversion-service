@@ -14,17 +14,17 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/v1/product")
 @RequiredArgsConstructor
 public class ProductRestController {
-    private final ProductService productOrderService;
+    private final ProductService productService;
 
     @GetMapping
     public Flux<ProductDTO> getAllProducts() {
-        return productOrderService.getAllProducts();
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
     public Mono<ProductDTO> getProductById(@PathVariable Long id) {
         try {
-            return productOrderService.getProductById(id);
+            return productService.getProductById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Product Not Found", e);
@@ -34,6 +34,6 @@ public class ProductRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long createProduct(@RequestBody ProductDTO product) {
-        return productOrderService.createProduct(product);
+        return productService.createProduct(product);
     }
 }
